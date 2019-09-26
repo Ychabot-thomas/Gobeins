@@ -15,6 +15,7 @@ var startButton;
 var killbric = new Audio('sound/karim_bric.mp3');
 var badlive = new Audio('sound/-vie.mp3');
 var gameover = new Audio('sound/gameover.mp3');
+var congratulation = new Audio('sound/bravo.mp3');
 
 function preload() {
 	handleRemoteImagesOnJSFiddle();
@@ -102,8 +103,8 @@ function ballHitBrick(ball, brick) {
     scoreText.setText('Points: '+score);
     killbric.play();
     if(score === /* brickInfo.count.row*brickInfo.count.col*10 */ 380) {
+        congratulation.play();
         alert('You won the game, congratulations!');
-        congratuations.play();
         location.reload();
     }
 }

@@ -102,7 +102,7 @@ function ballHitBrick(ball, brick) {
     score += 10;
     scoreText.setText('Points: '+score);
     killbric.play();
-    if(score === /* brickInfo.count.row*brickInfo.count.col*10 */ 380) {
+    if(score === /* brickInfo.count.row*brickInfo.count.col*10 */ 350) {
         congratulation.play();
         alert('You won the game, congratulations!');
         location.reload();

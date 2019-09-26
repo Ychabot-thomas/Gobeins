@@ -7,11 +7,14 @@ var newBrick;
 var brickInfo;
 var scoreText;
 var score = 0;
-var lives = 3;
+var lives = 2;
 var livesText;
 var lifeLostText;
 var playing = false;
 var startButton;
+var killbric = new Audio('sound/karim_bric.mp3');
+var badlive = new Audio('sound/-vie.mp3');
+var gameover = new Audio('sound/gameover.mp3');
 
 function preload() {
 	handleRemoteImagesOnJSFiddle();
@@ -63,17 +66,17 @@ function update() {
 }
 function initBricks() {
     brickInfo = {
-        width: 50,
+        width: 30,
         height: 20,
         count: {
-            row: 7,
+            row: 9,
             col: 3
         },
         offset: {
             top: 50,
-            left: 60
+            left: 40
         },
-        padding: 10
+        padding: 20
     }
     bricks = game.add.group();
     for(c=0; c<brickInfo.count.col; c++) {
@@ -97,24 +100,28 @@ function ballHitBrick(ball, brick) {
     killTween.start();
     score += 10;
     scoreText.setText('Points: '+score);
-    if(score === brickInfo.count.row*brickInfo.count.col*10) {
+    killbric.play();
+    if(score === /* brickInfo.count.row*brickInfo.count.col*10 */ 380) {
         alert('You won the game, congratulations!');
+        congratuations.play();
         location.reload();
     }
 }
 function ballLeaveScreen() {
     lives--;
     if(lives) {
+        badlive.play();
         livesText.setText('Lives: '+lives);
         lifeLostText.visible = true;
         ball.reset(game.world.width*0.5, game.world.height-25);
         paddle.reset(game.world.width*0.5, game.world.height-5);
         game.input.onDown.addOnce(function(){
             lifeLostText.visible = false;
-            ball.body.velocity.set(150, -150);
+            ball.body.velocity.set(300, 300);
         }, this);
     }
     else {
+        gameover.play();
         alert('You lost, game over!');
         location.reload();
     }
@@ -125,7 +132,7 @@ function ballHitPaddle(ball, paddle) {
 }
 function startGame() {
     startButton.destroy();
-    ball.body.velocity.set(150, -150);
+    ball.body.velocity.set(300, -300);
     playing = true;
 }
 

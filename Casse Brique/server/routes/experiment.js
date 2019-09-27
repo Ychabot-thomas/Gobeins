@@ -46,13 +46,13 @@ router.get('/api/:id(\\d+)', (req, res, next) => {
 // on submitting a new job using form multipart
 router.post('/', upload.single('experiment'), (req, res, next) => {
   console.log(req.body, req)
-  const title = req.body.title || 'untitled'
-  const file = req.file.filename
-  console.log(req.file.filename)
+  const username = req.body.username || 'untitled'
+  const score = req.score.filename
+  console.log(req.score.filename)
 
   return Experiment.create({
-    title,
-    file,
+    username,
+    score,
   })
     .then(experiment => res.redirect(301, '/experiment'))
     .catch(err => {
@@ -67,8 +67,8 @@ router.post('/', upload.single('experiment'), (req, res, next) => {
 router.get('/:id(\\d+)', async (req, res, next) => {
   return Experiment.findByPk(parseInt(req.params.id, 10))
     .then(({ dataValues }) => {
-      const { title, file, createdAt } = dataValues
-      return res.render('experiment', { title, file, createdAt })
+      const { username, score, createdAt } = dataValues
+      return res.render('experiment', { username, score, createdAt })
     })
     .catch(err => {
       console.log(

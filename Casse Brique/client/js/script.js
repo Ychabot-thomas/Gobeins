@@ -67,17 +67,17 @@ function update() {
 }
 function initBricks() {
     brickInfo = {
-        width: 30,
+        width: 50,
         height: 20,
         count: {
-            row: 9,
+            row: 7,
             col: 3
         },
         offset: {
             top: 50,
             left: 40
         },
-        padding: 20
+        padding: 15
     }
     bricks = game.add.group();
     for(c=0; c<brickInfo.count.col; c++) {
@@ -102,7 +102,7 @@ function ballHitBrick(ball, brick) {
     score += 10;
     scoreText.setText('Points: '+score);
     killbric.play();
-    if(score ===  brickInfo.count.row*brickInfo.count.col*10 ) {
+    if( score ===  brickInfo.count.row*brickInfo.count.col*10) {
         congratulation.play();
         alert('You won the game, congratulations!');
         location.reload();

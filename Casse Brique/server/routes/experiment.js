@@ -47,11 +47,15 @@ router.get('/api/:id(\\d+)', (req, res, next) => {
 router.post('/', upload.single('experiment'), (req, res, next) => {
   console.log(req.body, req)
   const username = req.body.username || 'untitled'
-  const score = req.score.filename
-  console.log(req.score.filename)
+  const score = req.body.score || 'untitled'
+  const lives = req.body.lives || 'untitled'
+  // const file = req.file.filename
+  // console.log(req.file.filename)
+
   return Experiment.create({
     username,
     score,
+    lives,
   })
     .then(experiment => res.redirect(301, '/experiment'))
     .catch(err => {
@@ -66,8 +70,13 @@ router.post('/', upload.single('experiment'), (req, res, next) => {
 router.get('/:id(\\d+)', async (req, res, next) => {
   return Experiment.findByPk(parseInt(req.params.id, 10))
     .then(({ dataValues }) => {
-      const { username, score, createdAt } = dataValues
-      return res.render('experiment', { username, score, createdAt })
+      const { username, /*file,*/ score, lives, createdAt } = dataValues
+      return res.render('experiment', {
+        username,
+        /*file,*/ score,
+        lives,
+        createdAt,
+      })
     })
     .catch(err => {
       console.log(

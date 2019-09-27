@@ -1,9 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert(
-      'Experiments',
-      {},
-    )
+    return queryInterface.bulkInsert('Experiments', [], {})
   },
 
   down: (queryInterface, Sequelize) => {

@@ -2,8 +2,18 @@ extends layout
 
 block content
   a(href="/") back
-  h1= title
-  .date= createdAt
-  .file= file
-  img(src=`/uploads/${file}`)
-  audio(src=`/uploads/${file}`,controls="true")
+  br
+  br
+  //- h1= Votre Score
+  label= "Username :"
+  p= username
+  label= "Score :"
+  p= score
+  label= "Lives :"
+  p= lives
+  //- a(href="/") back
+  //- h1= title
+  //- .date= createdAt
+  //- .file= file
+  //- img(src=`/uploads/${file}`)
+  //- audio(src=`/uploads/${file}`,controls="true")

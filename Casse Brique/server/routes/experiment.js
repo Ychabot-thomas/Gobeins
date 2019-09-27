@@ -49,7 +49,6 @@ router.post('/', upload.single('experiment'), (req, res, next) => {
   const username = req.body.username || 'untitled'
   const score = req.score.filename
   console.log(req.score.filename)
-
   return Experiment.create({
     username,
     score,

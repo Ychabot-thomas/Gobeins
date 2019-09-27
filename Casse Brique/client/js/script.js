@@ -102,10 +102,8 @@ function ballHitBrick(ball, brick) {
     score += 10;
     scoreText.setText('Points: '+score);
     killbric.play();
-    if( score ===  brickInfo.count.row*brickInfo.count.col*10) {
+    if( score ===  /* brickInfo.count.row*brickInfo.count.col*10 */ 50) {
         congratulation.play();
-        alert('You won the game, congratulations!');
-        location.reload();
         saveGame();
     }
 }
@@ -125,6 +123,7 @@ function ballLeaveScreen() {
     else {
         gameover.play();
         alert('You lost, game over!');
+        saveGame();
         location.reload();
     }
 }
@@ -139,7 +138,8 @@ function startGame() {
 }
 
 function saveGame(){
-    
+    document.querySelector('canvas').style.display = "none";
+    document.querySelector('#win').style.display = "block";
 }
 
 // this function (needed only on JSFiddle) take care of loading the images from the remote server

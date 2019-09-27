@@ -4,13 +4,12 @@ module.exports = (sequelize, DataTypes) => {
     {
       username: DataTypes.STRING,
       score: DataTypes.STRING,
-      lives: DataTypes.INT,
-      time: DataTypes.VARCHAR,
+      lives: DataTypes.INT
     },
     {},
   )
   Experiment.associate = function(models) {
-    // associations can be defined here
+
   }
   return Experiment
 }

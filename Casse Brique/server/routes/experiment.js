@@ -1,7 +1,7 @@
 const path = require('path')
 const { Router } = require('express')
 const multer = require('multer')
-const { Experiment } = require('../models/index.js.js') //
+const { Experiment } = require('../models/index.js') //
 const router = Router()
 const upload = multer({ dest: path.join(__dirname, '..', 'public', 'uploads') })
 

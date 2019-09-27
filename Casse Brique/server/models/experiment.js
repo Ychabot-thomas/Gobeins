@@ -2,8 +2,9 @@ module.exports = (sequelize, DataTypes) => {
   const Experiment = sequelize.define(
     'Experiment',
     {
-      title: DataTypes.STRING,
-      file: DataTypes.STRING,
+      username: DataTypes.STRING,
+      score: DataTypes.STRING,
+
     },
     {},
   )

@@ -6,8 +6,8 @@ const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const stylus = require('stylus')
 
-const indexRouter = require('./routes/index.js.js')
-const experimentRouter = require('./routes/experiment.js.js')
+const indexRouter = require('./routes/index.js')
+const experimentRouter = require('./routes/experiment.js')
 
 const app = express()
 

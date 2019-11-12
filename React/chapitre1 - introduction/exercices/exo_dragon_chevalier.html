@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <style>
+      .container {
+        margin: 0 auto;
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const chevalierArray = ["Pablo", "Brieuc", "Gregory"];
+      const dragonArray = ["Thierry", "David", "Arnold"];
+      class Chevalier extends React.Component {
+        constructor(props) {
+          super(props);
+        }
+        render() {
+          return (
+            <div>
+              <h2>Les PD de la table Ronde :</h2>
+              <ul>
+                {chevalierArray.map((name, i) => (
+                  <li key={i}>{name}</li>
+                ))}
+              </ul>
+            </div>
+          );
+        }
+      }
+
+      class Dragon extends React.Component {
+        constructor(props) {
+          super(props);
+        }
+
+        render() {
+          return (
+            <div>
+              <h2>Les tyran des airs :</h2>
+              <ul>
+                {dragonArray.map((name, i) => (
+                  <li key={i}>{name}</li>
+                ))}
+              </ul>
+            </div>
+          );
+        }
+      }
+
+      class App extends React.Component {
+        constructor(props) {
+          super(props);
+        }
+        render() {
+          return <div>{this.props.choice ? <Chevalier /> : <Dragon />}</div>;
+        }
+      }
+
+      const containerRoot = document.getElementById("root");
+
+      // Rendu dans le DOM de deux components hiérarchiques
+      ReactDOM.render(
+        // on place une props à un composant
+        // à l'aide d'un attribut clé/valeur
+        <App choice={false} />,
+        containerRoot
+      );
+    </script>
+  </body>
+</html>

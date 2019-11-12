@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <style>
+      .container {
+        margin: 0 auto;
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const Message = props => {
+        console.log(props);
+        return <p>{props.message}</p>;
+      };
+
+      const Hello = props => {
+        const title = "Ho Hello React!";
+
+        console.log(props);
+        return (
+          <div className="container">
+            <h1>{props.title}</h1>
+            <Message message="Decouvrir React" />
+          </div>
+        );
+      };
+
+      const containerRoot = document.getElementById("root");
+
+      // Rendu dans le DOM de deux components hiérarchiques
+      ReactDOM.render(
+        // on place une props à un composant
+        // à l'aide d'un attribut clé/valeur
+        <Hello title="React" />,
+        containerRoot
+      );
+    </script>
+  </body>
+</html>

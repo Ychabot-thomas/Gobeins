@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <style>
+      .container {
+        margin: 0 auto;
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      class Clock extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = { date: new Date() };
+        }
+
+        componentDidMount() {
+          this.timerID = setInterval(() => this.tick(), 1000);
+        }
+
+        componentWillUnmount() {
+          clearInterval(this.timerID);
+        }
+
+        tick() {
+          this.setState({
+            date: new Date()
+          });
+          console.log(this.state.date.toLocaleTimeString());
+        }
+
+        render() {
+          return (
+            <div>
+              <h1>Bonjour, monde !</h1>
+              <h2>Il est {this.state.date.toLocaleTimeString()}.</h2>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<Clock />, document.getElementById("root"));
+
+      // function timer() {
+      //   ReactDOM.render(<Horloge />, document.getElementById("root"));
+      // }
+
+      // setInterval(() => {
+      //   timer();
+      // }, 1000);
+    </script>
+  </body>
+</html>

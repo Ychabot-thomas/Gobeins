@@ -1,0 +1,12 @@
+{
+  "name": "dataviz",
+  "version": "1.0.0",
+  "description": "Projet Dataviz",
+  "main": "index.html",
+  "license": "MIT",
+  "dependencies": {
+    "scss": "^0.2.4",
+    "serve": "^11.2.0",
+    "surge": "^0.21.3"
+  }
+}

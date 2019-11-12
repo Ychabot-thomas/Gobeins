@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div><p id="FPS" style="color: red;"></p></div>
+    <canvas id="canvas"></canvas>
+
+    <script src="./vector.js"></script>
+    <script src="./Point.js"></script>
+    <script>
+      let canvas = document.querySelector("#canvas");
+      let ctx = canvas.getContext("2d");
+      ctx.canvas.width = 400;
+      ctx.canvas.height = 400;
+      canvas.style.backgroundColor = "#000000";
+
+      let nb_points = 200;
+
+      let points = [];
+      for (let i = 0; i < nb_points; i++) {
+        let point = new Point(
+          { x: 400 * Math.random(), y: 400 * Math.random() },
+          { x: Math.random(), y: Math.random() }
+        );
+        points.push(point);
+      }
+
+      let now = new Date();
+      let lastTime;
+      let deltaTime;
+
+      function update() {
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+        now = Date.now();
+        let deltaTime = now - lastTime;
+
+        for (let i = 0; i < nb_points; i++) {
+          points[i].update(ctx);
+          points[i].draw(ctx);
+
+          for (let j = 0; j < nb_points; j++) {
+            var dist = Math.sqrt(
+              Math.pow(points[i].position.x - points[j].position.x, 2) +
+                Math.pow(points[i].position.y - points[j].position.y, 2)
+            );
+            if (dist < 20) {
+              ctx.beginPath();
+              ctx.moveTo(points[i].position.x, points[i].position.y);
+              ctx.lineTo(points[j].position.x, points[j].position.y);
+              // ctx.globalAlpha = 0.6
+              ctx.strokeStyle = "#ffffff";
+              ctx.stroke();
+              ctx.closePath();
+            }
+          }
+        }
+        requestAnimationFrame(update);
+
+        lastTime = now;
+        console.log(1000 / deltaTime);
+        document.getElementById("FPS").value = "FPS : " + 1000 / deltaTime;
+      }
+
+      update();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Combat</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+  <body>
+    <div class="btn btnOpen">
+      <img
+        id="menu"
+        src="../img/menu_haut_page/icone_menu.png"
+        alt="Icone Menu"
+      />
+    </div>
+
+    <div class="btn btnClose">
+      <img
+        id="menu"
+        src="../img/menu_haut_page/croix_menu.png"
+        alt="Croix menu"
+      />
+    </div>
+    <div id="haut">
+      <ul>
+        <div class="menu">
+          <li>
+            <a class="link" href="./pain.html">
+              <p class="blue">Pain au Chocolat</p>
+              <p class="red">Chocolatine</p>
+            </a>
+          </li>
+          <li>
+            <a class="link" href="./crayon.html">
+              <p class="blue">Crayon à papier</p>
+              <p class="red">Crayon de bois</p>
+            </a>
+          </li>
+          <li>
+            <a class="link" href="./cereales.html">
+              <p class="blue">Lait avant céréales</p>
+              <p class="red">Lait après céréales</p>
+            </a>
+          </li>
+          <li>
+            <a class="link" href="./sac.html">
+              <p class="blue">Sac</p>
+              <p class="red">Poche</p>
+            </a>
+          </li>
+          <li>
+            <a class="link" href="./ananas.html">
+              <p class="blue">Pizza Ananas</p>
+              <p class="red">Sacrilège !</p>
+            </a>
+          </li>
+          <li>
+            <a class="link" href="./pichet.html">
+              <p class="blue">Carafe</p>
+              <p class="red">Pichet</p>
+            </a>
+          </li>
+          <li>
+            <a class="link" href="./wifi.html">
+              <p class="blue">La Wifi</p>
+              <p class="red">Le Wifi</p>
+            </a>
+          </li>
+          <li>
+            <a class="link" href="./poignee.html">
+              <p class="blue">Clanche</p>
+              <p class="red">Poignée</p>
+            </a>
+          </li>
+          <li>
+            <a class="link" href="./coffre.html">
+              <p class="blue">Coffre</p>
+              <p class="red">Malle</p>
+            </a>
+          </li>
+          <li>
+            <a class="link" href="./endive.html">
+              <p class="blue">Endive</p>
+              <p class="red">Chicon</p>
+            </a>
+          </li>
+          <li>
+            <a class="link" href="./sechante.html">
+              <p class="blue">Sèche-Linge</p>
+              <p class="red">Séchante</p>
+            </a>
+          </li>
+          <li>
+            <a class="link" href="./michel.html">
+              <p class="blue">Mont St Michel Breton</p>
+              <p class="red">Mont St Michel Normand</p>
+            </a>
+          </li>
+          <li>
+            <a class="link" href="./grec.html">
+              <p class="blue">Grec</p>
+              <p class="red">Kebab</p>
+            </a>
+          </li>
+        </div>
+      </ul>
+      <div id="gauche">
+        <img
+          id="coqBleuGif"
+          src="../img/menu_haut_page/coqBleu.gif"
+          alt="coqBleuGif"
+        />
+        <div id="endive" class="percent">0%</div>
+        <div id="cartoucheGauche">
+          <img
+            id="subjectDebatBleu"
+            src="../img/endive/menu/endive.png"
+            alt="Pain au Chocolat"
+          />
+        </div>
+      </div>
+      <a href="#bas">
+        <img id="eclair" src="../img/menu_haut_page/eclair.png" alt="eclair" />
+      </a>
+      <div id="droite">
+        <div id="chicon" class="percentDeux">0%</div>
+        <div id="cartoucheDroite">
+          <img
+            id="subjectDebatRouge"
+            src="../img/endive/menu/chicon.png"
+            alt="Chocolatine"
+          />
+        </div>
+        <img
+          id="coqRougeGif"
+          src="../img/menu_haut_page/coqRouge.gif"
+          alt="coqRougeGif"
+        />
+      </div>
+    </div>
+    <img
+      id="img1"
+      class="superpose"
+      src="../img/menu_haut_page/title_bleu.png"
+      alt=""
+    />
+    <img
+      id="img2"
+      class="superpose"
+      src="../img/menu_haut_page/title_rouge.png"
+      alt=""
+    />
+    <img
+      id="img3"
+      class="superpose"
+      src="../img/menu_haut_page/title_blanc.png"
+      alt=""
+    />
+    <div id="bas" class="endive"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenMax.min.js"></script>
+    <script type="text/javascript" src="../js/main.js"></script>
+    <script type="text/javascript">
+      // Debat 1
+
+      function red() {
+        var a = 0;
+
+        if (a == 0) {
+          a = 1;
+          var element = document.getElementById("endive");
+          var percent = 0;
+          var id = setInterval(() => {
+            if (percent >= 98) {
+              clearInterval(id);
+              var elementImage = document.getElementById("subjectDebatBleu");
+              elementImage.classList.add("win");
+              a = 0;
+            } else {
+              percent++;
+              element.innerHTML = percent + "%";
+            }
+          }, 70);
+        }
+      }
+
+      function blue() {
+        var b = 0;
+
+        if (b == 0) {
+          b = 1;
+          var elementDeux = document.getElementById("chicon");
+          var percentDeux = 0;
+          var idDeux = setInterval(frame, 70);
+          function frame() {
+            if (percentDeux >= 2) {
+              clearInterval(idDeux);
+              b = 0;
+            } else {
+              percentDeux++;
+              elementDeux.innerHTML = percentDeux + "%";
+            }
+          }
+        }
+      }
+
+      function depart() {
+        var a = red();
+        var b = blue();
+      }
+
+      window.onload = depart;
+    </script>
+  </body>
+</html>

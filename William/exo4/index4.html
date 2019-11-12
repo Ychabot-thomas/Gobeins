@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" style="border: 1px solid;"></canvas>
+
+    <script src="./vector.js"></script>
+    <script src="./Triangle.js"></script>
+    <script src="./easing.js"></script>
+    <script>
+      let canvas = document.querySelector("#canvas");
+      let ctx = canvas.getContext("2d");
+      ctx.canvas.width = 400;
+      ctx.canvas.height = 400;
+      canvas.style.backgroundColor = "#000000";
+
+      let mouse = new Vector(0, 0); // point de départ de la souris ou click de la souris
+      let start = new Vector(0, 0); // point de départ du triange
+
+      let currentTime = 0;
+      let duration = 2;
+      let triangle = new Triangle({ x: 50, y: 50 }, 30); // déclare le nouveau triangle
+
+      function update() {
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // efface le canvas et recommence 'évite les triangles partout'
+
+        // t = currentTime
+        // b = beginnig value
+        // c = change value (delta between `from` and `to`)
+        // d = duration
+        currentTime += 0.016;
+        if (currentTime <= duration) {
+          let x = easing.easeOutBack(
+            currentTime,
+            start.x,
+            mouse.x - start.x,
+            duration
+          );
+          let y = easing.easeOutBack(
+            currentTime,
+            start.y,
+            mouse.y - start.y,
+            duration
+          );
+          triangle.moveTo(x, y);
+        }
+
+        // triangle.update(mouse);
+        triangle.rotate(mouse);
+        triangle.draw(ctx);
+
+        requestAnimationFrame(update);
+      }
+
+      update();
+
+      document.addEventListener("click", e => {
+        mouse.x = e.offsetX;
+        mouse.y = e.offsetY;
+
+        start.x = triangle.position.x;
+        start.y = triangle.position.y;
+
+        currentTime = 0;
+      });
+    </script>
+  </body>
+</html>

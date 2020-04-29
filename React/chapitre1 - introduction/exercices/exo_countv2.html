@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <style>
+      .container {
+        margin: 0 auto;
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const App = () => {
+        const [display, setDisplay] = React.useState(false);
+
+        return (
+          <React.Fragment>
+            <button onClick={() => setDisplay(!display)}>
+              Show count button
+            </button>
+            {display && <Count />}
+          </React.Fragment>
+        );
+      };
+
+      const Count = () => {
+        const [count, setCount] = React.useState(0);
+        const [start, setStart] = React.useState(false);
+
+        React.useEffect(() => {
+          let timer = null;
+          if (start) {
+            timer = setInterval(() => {
+              setCount(count => count + 1);
+            }, 1000);
+          }
+          return () => {
+            clearInterval(timer);
+            console.log("stopped");
+          };
+        }, [start]);
+
+        return <button onClick={() => setStart(!start)}>Count {count}</button>;
+      };
+
+      const containerRoot = document.getElementById("root");
+
+      ReactDOM.render(<App />, containerRoot);
+    </script>
+  </body>
+</html>

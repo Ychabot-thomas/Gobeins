@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- babel => compilation du JSX -->
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <style></style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const postsData = [
+        {
+          userId: 1,
+          id: 1,
+          title:
+            "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+          body:
+            "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
+        },
+        {
+          userId: 1,
+          id: 2,
+          title: "Bonjour tout le monde",
+          body:
+            "est rerum tempore vitae\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla"
+        },
+        {
+          userId: 1,
+          id: 3,
+          title: "ea molestias quasi exercitationem repellat qui ipsa sit aut",
+          body:
+            "et iusto sed quo iure\nvoluptatem occaecati omnis eligendi aut ad\nvoluptatem doloribus vel accusantium quis pariatur\nmolestiae porro eius odio et labore et velit aut"
+        },
+        {
+          userId: 1,
+          id: 4,
+          title: "eum et est occaecati",
+          body:
+            "ullam et saepe reiciendis voluptatem adipisci\nsit amet autem assumenda provident rerum culpa\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\nquis sunt voluptatem rerum illo velit"
+        }
+      ];
+      // On initialise le "state" de notre contexte
+      // Les valeurs default sont utilisables uniquement
+      // si vous utilisez le Consumer sans utiliser le Provider
+      const defaultContext = {
+        posts: [],
+        shuffle: postId => {}
+      };
+      const PostDataContext = React.createContext(defaultContext);
+      class Post extends React.Component {
+        render() {
+          const { title, body, shuffle } = this.props;
+          return (
+            <React.Fragment>
+              <h1>{title}</h1>
+              <p>{body}</p>
+              <p>
+                <button onClick={shuffle}>Shuffle title</button>
+              </p>
+            </React.Fragment>
+          );
+        }
+      }
+      class Content extends React.Component {
+        render() {
+          return (
+            <div className="container">
+              <Posts />
+            </div>
+          );
+        }
+      }
+      class Posts extends React.Component {
+        render() {
+          return (
+            <React.Fragment>
+              <header>
+                <h1>Les posts : </h1>
+              </header>
+              <PostDataContext.Consumer>
+                {({ posts, shuffle }) => (
+                  <div className="app_posts">
+                    {posts.map((post, i) => (
+                      <Post
+                        key={i}
+                        {...post}
+                        shuffle={() => shuffle(post.id)}
+                      />
+                    ))}
+                  </div>
+                )}
+              </PostDataContext.Consumer>
+            </React.Fragment>
+          );
+        }
+      }
+      class PostsProvider extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            posts: postsData,
+            shuffle: this.shuffle
+          };
+        }
+        shuffle = postId => {
+          const posts = this.state.posts.map(post => {
+            if (post.id == postId) {
+              post.title = [...post.title]
+                .sort(() => Math.random() - 0.5)
+                .join("");
+            }
+            return post;
+          });
+          this.setState({
+            posts: posts
+          });
+        };
+        render() {
+          // Tout ce qui est dans le contexte pourra consommer l'information
+          return (
+            <PostDataContext.Provider value={this.state}>
+              {this.props.children}
+            </PostDataContext.Provider>
+          );
+        }
+      }
+      class App extends React.Component {
+        render() {
+          return <Content />;
+        }
+      }
+      ReactDOM.render(
+        <PostsProvider>
+          <App />
+        </PostsProvider>,
+        document.getElementById("root")
+      );
+    </script>
+  </body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- babel => compilation du JSX -->
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <style></style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      class App extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            elems: []
+          };
+        }
+
+        handleGenerate = () => {
+          this.state.elems.push({
+            key: Math.random() + "",
+            hash: Math.random().toString(16)
+          });
+          this.setState({ elems: this.state.elems });
+        };
+
+        deleteElement = current => {
+          this.setState({
+            elems: this.state.elems.filter(elem => current.key != elem.key)
+          });
+        };
+
+        render() {
+          return (
+            <React.Fragment>
+              <button onClick={this.handleGenerate}>Generate</button>
+              <Elems elements={this.state.elems} delete={this.deleteElement} />
+            </React.Fragment>
+          );
+        }
+      }
+
+      class Elems extends React.Component {
+        constructor(props) {
+          super(props);
+        }
+        render() {
+          return (
+            <React.Fragment>
+              {this.props.elements.map((element, i) => (
+                <Elem key={i} toto={element} delete={this.props.delete} />
+              ))}
+            </React.Fragment>
+          );
+        }
+      }
+
+      class Elem extends React.Component {
+        constructor(props) {
+          super(props);
+        }
+
+        render() {
+          return (
+            <React.Fragment>
+              <div>key :{this.props.toto.key}</div>
+              <div>hash :{this.props.toto.hash}</div>
+              <button
+                onClick={() => this.props.delete({ key: this.props.toto.key })}
+              >
+                Delete
+              </button>
+            </React.Fragment>
+          );
+        }
+      }
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- babel => compilation du JSX -->
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <style>
+      /* moving to box-sizing (always) */
+      * {
+        box-sizing: border-box;
+      }
+      /* styles du conteneur */
+      .container-grid-4 {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: calc(4 * 150px);
+        margin: auto;
+      }
+
+      /* direct children's styles */
+      .container-grid-4 > * {
+        flex: 0 0 auto;
+        width: 150px;
+        height: 150px;
+        border: solid 1px aqua;
+        line-height: 150px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const colors = ["#1e88e5", "#6ab7ff", "#005cb2", "#1976d2"];
+      const nbColor = 4;
+      const dimSquare = 4 * 4;
+      class Square extends React.Component {
+        constructor(props) {
+          super(props);
+        }
+        render() {
+          const style = { backgroundColor: this.props.color };
+          return <div style={style}>{this.props.number}</div>;
+        }
+      }
+      class Checkerboard extends React.Component {
+        constructor(props) {
+          super(props);
+        }
+        render() {
+          // génère un tableau de 16 valeurs
+          // Array(8).keys() crée un itérateur
+          const squares = [...Array(dimSquare).keys()];
+          return (
+            <React.Fragment>
+              {squares.map(i => (
+                <Square key={i} color={colors[i % nbColor]} number={i + 1} />
+              ))}
+            </React.Fragment>
+          );
+        }
+      }
+      class App extends React.Component {
+        render() {
+          return (
+            <div className="container-grid-4 ">
+              <Checkerboard />
+            </div>
+          );
+        }
+      }
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

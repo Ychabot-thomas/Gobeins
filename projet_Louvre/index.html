@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <title>L'histoire du Chandelier</title>
+    <link rel="stylesheet" href="css/stylesheet.css" type="text/css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <! -- BOUTON START L'EXPERIENCE -->
+    <div class="intro">
+      <button class="start" onclick="play('audioPlayer', this)" id="start">
+        COMMENCER
+      </button>
+    </div>
+
+    <! -- GESTION MUSIQUE -->
+    <div class="music">
+      <button id="music" onclick="control('audioPlayer', this)">
+        <img src="assets/images/pause.svg" id="play-pause" />
+      </button>
+    </div>
+    <audio id="audioPlayer" src="assets/music/intro.mp3" loop></audio>
+
+    <! -- PHRASE BOUGIE -->
+    <div id="phraseBougie"></div>
+
+    <! -- ALLUMER BOUGIE -->
+    <div id="divAllumerBougie" onclick="allumerBougie()"></div>
+    <video loop autoplay muted width="50" id="flamme">
+      <source src="assets/images/blue_flame_compressed.mp4" type="video/mp4" />
+    </video>
+    <p id="consigneBougie">Cliquez sur la bougie pour éclairer votre chemin.</p>
+
+    <! -- ALLER AU PREMIER CHAP -->
+    <div id="divChap1" onclick="chapitre1()"></div>
+    <p id="consigneChap1">
+      Cliquez sur le chandelier pour connaître son histoire.
+    </p>
+
+    <! -- CANVAS -->
+    <canvas id="myCanvas"></canvas>
+  </body>
+
+  <script src="js/three.js"></script>
+  <script src="assets/3DModels/GLTFLoader.js"></script>
+
+  <script src="js/phraseBougie.js"></script>
+
+  <script>
+    // REDIRECTION EN FONCTION DE LA TAILLE DE L'ÉCRAN
+    window.addEventListener("resize", onwindowResize);
+    onwindowResize();
+    function onwindowResize() {
+      if (window.innerWidth < 1024) {
+        document.location.href = "redirection.html";
+      }
+    }
+
+    // RENDERER
+    var renderer = new THREE.WebGLRenderer({
+      canvas: document.getElementById("myCanvas"),
+      antialias: true
+    });
+    renderer.setClearColor(0x000000);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    //CAMERAS
+    var camera = new THREE.PerspectiveCamera(
+      35,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      3000
+    );
+    //camera.position.set(0,0,0);
+    camera.position.z = 300;
+    camera.position.y = 105;
+
+    //SCENE
+    var scene = new THREE.Scene();
+
+    //GLOBAL LIGHTS
+    var lightAmbient = new THREE.AmbientLight(0x000000, 1);
+    scene.add(lightAmbient);
+    var pointLight = new THREE.PointLight(0x1b1c20, 0.5, 3000);
+    pointLight.position.y = 200;
+    pointLight.position.x = 0;
+    pointLight.position.z = 0;
+    scene.add(pointLight);
+
+    // LUMIERE TEMPLE 1
+    bulbLight = new THREE.SpotLight(0xa9a9a9, 1.8, 1200, 1, 1, 2);
+    var bulbGeometry = new THREE.SphereBufferGeometry(0, 16, 8);
+    bulbMat = new THREE.MeshStandardMaterial({
+      emissive: 0xd3d3d3,
+      emissiveIntensity: 0.7,
+      color: 0xff0000
+    });
+    bulbLight.add(new THREE.Mesh(bulbGeometry, bulbMat));
+    bulbLight.position.set(230, 130, 20);
+    bulbLight.castShadow = true;
+    bulbLight.target.position.set(0, 0, 20);
+    bulbLight.target.updateMatrixWorld();
+    scene.add(bulbLight);
+
+    // LUMIERE TEMPLE 2
+    bulbLight2 = new THREE.SpotLight(0xa9a9a9, 1.8, 850, 1, 1, 2);
+    var bulbGeometry2 = new THREE.SphereBufferGeometry(0, 16, 8);
+    bulbMat2 = new THREE.MeshStandardMaterial({
+      emissive: 0xd3d3d3,
+      emissiveIntensity: 0.7,
+      color: 0xff0000
+    });
+    bulbLight2.add(new THREE.Mesh(bulbGeometry2, bulbMat2));
+    bulbLight2.position.set(-230, 130, -590);
+    bulbLight2.castShadow = true;
+    bulbLight2.target.position.set(0, 0, -590);
+    bulbLight2.target.updateMatrixWorld();
+    scene.add(bulbLight2);
+
+    //LUMIERE TEMPLE 3
+    bulbLight3 = new THREE.SpotLight(0xa9a9a9, 1.8, 650, 1, 1, 2);
+    var bulbGeometry3 = new THREE.SphereBufferGeometry(0, 16, 8);
+    bulbMat3 = new THREE.MeshStandardMaterial({
+      emissive: 0xd3d3d3,
+      emissiveIntensity: 0.7,
+      color: 0xff0000
+    });
+    bulbLight3.add(new THREE.Mesh(bulbGeometry3, bulbMat3));
+    bulbLight3.position.set(230, 130, -1030);
+    bulbLight3.castShadow = true;
+    bulbLight3.target.position.set(0, 0, -1030);
+    bulbLight3.target.updateMatrixWorld();
+    scene.add(bulbLight3);
+
+    //MODEL 3D TEMPLE
+    var group2 = new THREE.Group();
+    var loaders = new THREE.GLTFLoader();
+    loaders.load("assets/3DModels/chandelier-lesspolygon-2.gltf", function(
+      gltf
+    ) {
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFShadowMap;
+      group2.add(gltf.scene);
+      gltf.scene.receiveShadow = true;
+      for (var i = 0; i < gltf.scene.children.length; i++) {
+        gltf.scene.children[i].receiveShadow = true;
+      }
+
+      gltf.scene.castShadow = true;
+      for (var i = 0; i < gltf.scene.children.length; i++) {
+        gltf.scene.children[i].castShadow = true;
+      }
+      group2.castShadow = true;
+      for (var i = 0; i < group2.children[0].children.length; i++) {
+        group2.children[0].children[i].castShadow = true;
+      }
+
+      scene.add(group2);
+    });
+
+    //MODEL 3D CHANDELIER
+    var group = new THREE.Group();
+    var loader = new THREE.GLTFLoader();
+    loader.load("assets/3DModels/chandelier-lesspolygon.gltf", function(gltf) {
+      gltf.scene.scale.set(0.5, 0.5, 0.5);
+      gltf.scene.position.set(0, 55, -1000);
+      gltf.scene.castShadow = true;
+      for (var i = 0; i < gltf.scene.children.length; i++) {
+        gltf.scene.children[i].castShadow = true;
+      }
+      group.add(gltf.scene);
+      scene.add(group);
+    });
+
+    //START L'EXPÉRIENCE
+    let avance = false;
+    function play(idPlayer) {
+      //AUDIO
+      var player = document.querySelector("#" + idPlayer);
+      var buttonmusic = document.getElementById("music");
+
+      document.getElementById("start").style.display = "none";
+      buttonmusic.style.display = "none";
+
+      if (buttonmusic.style.display === "none") {
+        buttonmusic.style.display = "block";
+      }
+
+      if (player.paused) {
+        player.play();
+      } else {
+        player.pause();
+      }
+      //CAMERA
+      avance = true;
+    }
+
+    //ALLUMER BOUGIE
+    let allumer = false;
+    function allumerBougie() {
+      bulbLight5 = new THREE.PointLight(0x00ffff, 1, 200, 1, 0.941);
+      var bulbGeometry5 = new THREE.SphereBufferGeometry(1, 16, 8);
+      bulbMat5 = new THREE.MeshStandardMaterial({
+        emissive: 0x00ffff,
+        emissiveIntensity: 1,
+        color: 0xff0000
+      });
+      bulbLight5.add(new THREE.Mesh(bulbGeometry5, bulbMat5));
+      bulbLight5.position.set(0, 60, -1000);
+      bulbLight5.castShadow = true;
+      scene.add(bulbLight5);
+
+      group2.castShadow = false;
+      for (var i = 0; i < group2.children[0].children.length; i++) {
+        group2.children[0].children[i].castShadow = false;
+      }
+
+      bulbLight32 = new THREE.SpotLight(0xa9a9a9, 1.8, 350, 1, 1, 2);
+      var bulbGeometry32 = new THREE.SphereBufferGeometry(4, 6, 8);
+      bulbMat32 = new THREE.MeshStandardMaterial({
+        emissive: 0xd3d3d3,
+        emissiveIntensity: 0.7,
+        color: 0xff0000
+      });
+      bulbLight32.add(new THREE.Mesh(bulbGeometry32, bulbMat32));
+      bulbLight32.position.set(0, 30, -700);
+      bulbLight32.castShadow = true;
+      bulbLight32.target.position.set(0, 0, -1030);
+      bulbLight32.target.updateMatrixWorld();
+      scene.add(bulbLight32);
+
+      allumer = true;
+    }
+
+    //AUDIO CONTROLS
+    function control(idPlayer) {
+      var player = document.querySelector("#" + idPlayer);
+
+      var buttonmusic = document.getElementById("play-pause");
+
+      if (player.paused) {
+        player.play();
+        buttonmusic.src = "assets/images/pause.svg";
+      } else {
+        player.pause();
+        buttonmusic.src = "assets/images/play-button-arrowhead.svg";
+      }
+    }
+
+    //AFFICHAGE TITRE
+    function afficherTitre() {
+      var iframe = document.createElement("iframe");
+      iframe.src = "titre.html";
+      iframe.id = "titre";
+      document.body.appendChild(iframe);
+    }
+    //ENLEVER TITRE
+    function enleverTitre() {
+      var titre = document.getElementById("titre");
+      titre.style.display = "none";
+    }
+
+    //AFFICHAGE PHRASE BOUGIE
+    function afficherPhraseBougie() {
+      var phrase = document.getElementById("phraseBougie");
+      phrase.style.display = "block";
+
+      var anim;
+      var elem = document.getElementById("phraseBougie");
+      var animData = {
+        container: elem,
+        renderer: "svg",
+        loop: false,
+        autoplay: true,
+        rendererSettings: {
+          progressiveLoad: true,
+          preserveAspectRatio: "xMidYMid meet",
+          imagePreserveAspectRatio: "xMidYMid meet"
+        },
+        path: "js/data.json"
+      };
+      anim = lottie.loadAnimation(animData);
+      anim.setSubframe(false);
+      anim.onError = function(errorType, nativeError, errorProps) {
+        console.log(errorType);
+      };
+
+      anim.addEventListener("error", function(error) {
+        console.log(error);
+      });
+    }
+    //ENLEVER PHRASE BOUGIE
+    function enleverPhraseBougie() {
+      var phrase = document.getElementById("phraseBougie");
+      phrase.style.display = "none";
+    }
+
+    //AFFICHER BOUTON BOUGIE
+    function boutonBougie() {
+      var btn = document.getElementById("divAllumerBougie");
+      btn.style.display = "block";
+      var consigne1 = document.getElementById("consigneBougie");
+      consigne1.style.display = "flex";
+    }
+
+    //AFFICHER BOUTON CHAP1
+    var chap1 = false;
+    function boutonChap1() {
+      var btn = document.getElementById("divChap1");
+      btn.style.display = "block";
+      var consigne2 = document.getElementById("consigneChap1");
+      consigne2.style.display = "flex";
+    }
+    function chapitre1() {
+      chap1 = true;
+      transition = true;
+    }
+
+    //WINDOW RESIZE
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    //RANDOM
+    function getRandomInt(max) {
+      return Math.floor(Math.random() * Math.floor(max));
+    }
+
+    var transition = false;
+    //RENDER LOOP
+    requestAnimationFrame(render);
+    function render() {
+      group2.needsUpdate = true;
+      //AVANCÉE CAMÉRA
+      if (avance === true) {
+        if (camera.position.z >= -800) {
+          camera.position.z -= 2.5;
+        }
+      }
+      if (transition === true) {
+        if (camera.position.z >= -800) {
+          camera.position.z -= 1.5;
+        }
+        if (camera.position.z >= -1020) {
+          camera.position.y -= 0.5;
+          camera.position.z -= 10;
+        }
+      }
+
+      //AFFICHAGE TITRE
+      if (camera.position.z === 30) {
+        afficherTitre();
+      }
+      if (camera.position.z === -450) {
+        enleverTitre();
+      }
+
+      //AFFICHAGE PHRASE BOUGIE
+      if (camera.position.z < -500) {
+        afficherPhraseBougie();
+      }
+      if (camera.position.z < -750) {
+        enleverPhraseBougie();
+      }
+
+      //ALLUMER BOUGIE
+      if (allumer === true) {
+        for (var i = 0; i < group2.children[0].children.length; i++) {
+          group2.children[0].children[0].castShadow = false;
+          var flamme = document.getElementById("flamme");
+          flamme.style.display = "block";
+        }
+
+        bulbLight5.position.y = getRandomInt(100) / 150 + 140.7;
+        bulbLight5.castShadow = true;
+        bulbLight5.position.x = getRandomInt(100) / 150;
+        var btn = document.getElementById("divAllumerBougie");
+        btn.style.display = "none";
+        var consigne1 = document.getElementById("consigneBougie");
+        consigne1.style.display = "none";
+      }
+
+      //AFFICHER CONSIGNES BOUGIE
+      if (camera.position.z < -760 && allumer === false) {
+        boutonBougie();
+      }
+
+      //AFFICHER CONSIGNES CHAP1
+      if (camera.position.z < -760 && chap1 === false && allumer === true) {
+        boutonChap1();
+      }
+
+      //ALLER AU CHAP1
+      if (chap1 === true) {
+        var btn2 = document.getElementById("divChap1");
+        btn2.style.display = "none";
+        var consigne2 = document.getElementById("consigneChap1");
+        consigne2.style.display = "none";
+        var bougie = document.getElementById("flamme");
+        bougie.style.display = "none";
+      }
+
+      if (camera.position.z === -1022.5) {
+        document.location.href = "./chapitres/chap1.html";
+      }
+
+      //WINDOW RESIZE
+      window.addEventListener("resize", onWindowResize, false);
+      renderer.render(scene, camera);
+      requestAnimationFrame(render);
+    }
+  </script>
+</html>

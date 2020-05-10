@@ -1,0 +1,162 @@
+@font-face {
+  font-family: "copperplate";
+  src: url("../assets/fonts/copperplate/opticopperplate-webfont.woff2")
+      format("woff2"),
+    url("../assets/fonts/copperplate/opticopperplate-webfont.woff")
+      format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+body {
+  margin: 0;
+  overflow: hidden;
+  display: flex;
+  padding: 0;
+  font-family: sans-serif;
+  width: 100%;
+  height: 100%;
+  cursor: url("../assets/images/click-8.png") 12 12, auto;
+  background: none transparent !important;
+}
+button {
+  outline: 0;
+}
+#myCanvas {
+  overflow: hidden;
+  z-index: -10;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.intro {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+}
+.start {
+  cursor: url("../assets/images/point_1-8.png") 12 12, pointer;
+  color: #00ffff;
+  border: solid 4px #00ffff;
+  font-size: 140%;
+  padding: 10px 60px;
+  font-family: copperplate, sans-serif;
+  margin: auto;
+  margin-top: 60vh;
+  border-radius: 5px;
+  background: linear-gradient(45deg, black 0%, #00ffff 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+}
+button.start:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(45deg, #00ffff 50%, transparent 50%);
+  z-index: -1;
+}
+
+button.start,
+button.start:after {
+  background-size: 300%;
+  background-position: 100%;
+  transition: 1s, font-size 0.2s;
+}
+
+button.start:hover,
+button.start:hover:after {
+  background-position: 0;
+  font-size: 1.1em;
+}
+button#music {
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: none;
+  cursor: url("../assets/images/point_1-8.png") 12 12, pointer;
+}
+button#music img {
+  width: 20px;
+  margin: 20px;
+}
+
+#phraseBougie {
+  background-color: transparent;
+  width: 100vw !important;
+  height: 100vh !important;
+  overflow: hidden;
+  margin-top: 10%;
+  transform: translate3d(0, 0, 0);
+  display: none;
+  z-index: -1;
+  position: absolute;
+}
+iframe {
+  z-index: -1;
+  border: none;
+  width: 100vw;
+  height: 100vh;
+}
+#divAllumerBougie:hover,
+#divChap1:hover {
+  cursor: url("../assets/images/point_1-8.png") 12 12, pointer;
+}
+#divAllumerBougie {
+  display: none;
+  z-index: 30;
+  position: absolute;
+  width: 80px;
+  height: 120px;
+  background-color: transparent;
+  left: 47vw;
+  top: 26vh;
+}
+#divChap1 {
+  display: none;
+  z-index: 30;
+  position: absolute;
+  width: 340px;
+  height: 340px;
+  background-color: transparent;
+  top: 45vh;
+  left: 36vw;
+}
+#consigneBougie,
+#consigneChap1 {
+  width: 100vw !important;
+  font-family: "Montserrat", sans-serif;
+  display: none;
+  color: #00ffff;
+  font-size: 20px;
+  position: absolute;
+  justify-content: center;
+  align-content: center;
+  opacity: 0;
+  animation: opacity 10s ease-in-out;
+  margin-top: 70px;
+}
+@keyframes opacity {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+#flamme {
+  display: none;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: 20vh;
+}

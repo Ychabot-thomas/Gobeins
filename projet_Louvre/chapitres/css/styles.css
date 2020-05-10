@@ -1,0 +1,133 @@
+* {
+  margin: 0;
+  padding: 0;
+  /* width: 100vw; */
+}
+
+body {
+  cursor: url("../../assets/images/click-8.png") 12 12, auto;
+}
+
+section {
+  /* background-image: url(../img/Illustration_mossoul_rue.jpg);
+  background-size: cover;
+  background-repeat: no-repeat; */
+  min-height: 100vh;
+}
+
+.imgfonddebut {
+  position: fixed;
+  /* left: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%; */
+  width: -webkit-fill-available;
+  /* height: -webkit-fill-available; */
+  opacity: 0;
+  -webkit-animation-duration: 3s;
+  -webkit-animation-name: fadeInFromNone;
+  -webkit-animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes fadeInFromNone {
+  0% {
+    opacity: 0;
+  }
+
+  1% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.imgfondfin {
+  position: fixed;
+  left: 0;
+  /* bottom: 0; */
+  width: 100%;
+  display: none;
+}
+
+.animone {
+  /* background-color: orange; */
+  width: 14vw;
+  height: 20vh;
+  position: absolute;
+  top: 27vh;
+  right: 0;
+  cursor: url("../../assets/images/point_1-8.png") 12 12, pointer;
+}
+
+.animtwo {
+  /* background-color: orange; */
+  width: 24vw;
+  height: 37vh;
+  position: absolute;
+  top: 34vh;
+  left: 110vh;
+  cursor: url("../../assets/images/point_1-8.png") 12 12, pointer;
+}
+
+.animfour {
+  /* background-color: orange; */
+  width: 11vw;
+  height: 32vh;
+  position: absolute;
+  top: 37vh;
+  left: 6vh;
+  cursor: url("../../assets/images/point_1-8.png") 12 12, pointer;
+}
+
+#transition {
+  /* position: absolute;
+  top: -10vh;
+  left: 0; */
+  position: fixed;
+  /* left: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%; */
+  width: -webkit-fill-available;
+  height: unset;
+  z-index: 1;
+  /* min-height: 100vh; */
+}
+
+#videoanimone {
+  position: fixed;
+  /* left: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%; */
+  width: -webkit-fill-available;
+  display: none;
+  z-index: 1;
+  /* min-width: -webkit-fill-available; */
+}
+
+#videoanimthree {
+  position: fixed;
+  /* left: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%; */
+  width: -webkit-fill-available;
+  display: none;
+  z-index: 1;
+  /* min-width: -webkit-fill-available; */
+}
+
+#videoanimtwo {
+  position: fixed;
+  /* left: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%; */
+  width: -webkit-fill-available;
+  display: none;
+  z-index: 1;
+  /* min-width: -webkit-fill-available; */
+}
